@@ -2,6 +2,7 @@
 // @name        DingDong
 // @namespace   wmde.tictac
 // @include     https://tictac.wikimedia.de/*
+// @include     http://tictac.wikimedia.de/*
 // @version     1
 // @grant       none
 // ==/UserScript==
