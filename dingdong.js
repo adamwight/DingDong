@@ -11,6 +11,9 @@
   function showDOW () {
     /* Show the date of the week and highlight weekends */
     var isoDateElement = document.querySelector('.oe_datepicker_root.oe_form_invisible')
+    if ( !isoDateElement ) {
+      return
+    }
     var timestring = isoDateElement.textContent;
     var element = document.querySelector('.oe_datepicker_root:not(.oe_form_invisible)')
     var date = new Date(Date.parse(timestring))
