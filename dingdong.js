@@ -6,6 +6,7 @@
 // @version     1
 // @grant       none
 // ==/UserScript==
+/* global openerp */
 
 (function () {
   function showDOW () {
@@ -35,6 +36,30 @@
     element.textContent = reformattedDate
   }
 
+  function setItemDates () {
+    if (!openerp || !openerp.web || !openerp.web.DateTimeWidget) {
+      return
+    }
+    var origStart = openerp.web.DateTimeWidget.prototype.start
+    openerp.web.DateTimeWidget.prototype.start = function () {
+      origStart.apply(this, arguments)
+
+      var isoDateElement = document.querySelector('.oe_datepicker_root.oe_form_invisible')
+      if (!isoDateElement) {
+        return
+      }
+      var timestring = isoDateElement.textContent
+      var date = new Date(Date.parse(timestring))
+      if (isNaN(date) || date.getFullYear() < 2020) {
+        return
+      }
+      // See base implementation in odoo/addons/web/static/src/js/view_form.js
+      // XXX doesn't work yet
+      this.picker('setDate', date)
+      this.set_value(timestring)
+    }
+  }
+
   function quickEdit () {
     /* Go into edit mode if user clicks on table */
     var table = document.querySelector('#notebook_page_14')
@@ -47,6 +72,7 @@
 
   function install () {
     showDOW()
+    setItemDates()
     quickEdit()
     var blocker = document.querySelector('.oe_loading')
     observer.observe(blocker, { attributes: true })
@@ -58,5 +84,6 @@
 
   window.onhashchange = install
   showDOW()
+  setItemDates()
   quickEdit()
 })()
