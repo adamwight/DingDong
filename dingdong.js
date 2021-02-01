@@ -10,8 +10,9 @@
 (function () {
   function showDOW () {
     /* Show the date of the week and highlight weekends */
-    var timestring = document.querySelectorAll('.oe_datepicker_root')[1].textContent
-    var element = document.querySelector('.oe_datepicker_root')
+    var isoDateElement = document.querySelector('.oe_datepicker_root.oe_form_invisible')
+    var timestring = isoDateElement.textContent;
+    var element = document.querySelector('.oe_datepicker_root:not(.oe_form_invisible)')
     var date = new Date(Date.parse(timestring))
     if (isNaN(date) || date.getFullYear() < 2020) {
       return
