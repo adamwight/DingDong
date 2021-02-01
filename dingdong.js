@@ -30,7 +30,9 @@
       element.style.color = ''
       element.style.fontWeight = ''
     }
-    element.textContent = date.toLocaleDateString([], { dateStyle: 'full' })
+    var reformattedDate = date.toLocaleDateString([],
+      {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'})
+    element.textContent = reformattedDate
   }
 
   function quickEdit () {
